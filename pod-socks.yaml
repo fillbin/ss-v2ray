@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: shadowsocks
+  name: shadowsocks
+spec:
+  containers:
+  - image: docker.io/lobodapro/ss-v0.1
+    name: shadowsocks
+    env:
+    - name: DOMAIN
+      value: "<YOUR_DOMAIN>"
+    - name: PASSWORD
+      value: "<YOUR_PASSWORD>"
+    - name: DICKPATH
+      value: "<YOUR_CUSTOMPATH>"
+    ports:
+    - containerPort: 8388
+    resources: {}
+    volumeMounts:
+      - name: acme-out
+        mountPath: /.acme.sh
+  volumes:
+    - name: acme-out
+      hostPath:
+        path: /opt/acme.sh
+        type: Directory
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

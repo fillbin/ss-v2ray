@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shadowsocks
+spec:
+  ports:
+  - nodePort: 30443
+    port: 8388
+    protocol: TCP
+    targetPort: 8388
+  type: NodePort
+  selector:
+    run: shadowsocks
+status:
+  loadBalancer: {}

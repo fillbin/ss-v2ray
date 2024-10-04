@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    run: acme-cert
+  name: acme-cert
+spec:
+  completions: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+          - name: acme-out
+            mountPath: /usr/share/nginx/html
+      - image: neilpang/acme.sh
+        name: acme
+        env:
+        - name: DOMAIN
+          value: "<YOUR_DOMAIN>"
+        - name: ACCOUNT_EMAIL
+          value: "<YOUR_EMAIL>"
+        - name: ECC_SUFFIX
+          value: ""
+        command: ['sh', '-c', "acme.sh --issue -d $(DOMAIN) -w /acme.sh && chmod a+r /acme.sh/$(DOMAIN)/$(DOMAIN).key"]
+        volumeMounts:
+          - name: acme-out
+            mountPath: /acme.sh
+      volumes:
+        - name: acme-out
+          hostPath:
+            path: /opt/acme.sh
+            type: Directory
