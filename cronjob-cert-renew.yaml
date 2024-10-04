@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    run: acme-cert-renew
+  name: acme-cert-renew
+spec:
+  schedule: '5 1 * * *'
+  jobTemplate:
+    metadata:
+      name: acme-cert-renew-job
+    spec:
+      template:
+        spec:
+          containers:
+          - image: neilpang/acme.sh
+            name: acme
+            env:
+            - name: DOMAIN
+              value: "<YOUR_DOMAIN>"
+            - name: ACCOUNT_EMAIL
+              value: "<YOUR_EMAIL>"
+            command: ['sh', '-c', "acme.sh --cron --home /acme.sh"]
+            volumeMounts:
+              - name: acme-out
+                mountPath: /acme.sh
+          restartPolicy: OnFailure
+          volumes:
+            - name: acme-out
+              hostPath:
+                path: /opt/acme.sh
+                type: Directory
