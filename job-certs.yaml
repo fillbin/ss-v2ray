@@ -10,7 +10,16 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-      - image: neilpang/acme.sh
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - name: acme-out
+          mountPath: /usr/share/nginx/html
+      - image: lobodapro/acme-socat:v0.1
         name: acme
         env:
         - name: DOMAIN
@@ -19,7 +28,7 @@ spec:
           value: "<YOUR_EMAIL>"
         - name: ECC_SUFFIX
           value: ""
-        command: ['sh', '-c', "acme.sh --issue -d $(DOMAIN) --standalone --httpport 8080 -w /acme.sh && chmod a+r /acme.sh/$(DOMAIN)/$(DOMAIN).key"]
+        command: ['sh', '-c', "acme.sh --issue -d $(DOMAIN) -w /acme.sh && mv /acme.sh/$(DOMAIN)_ecc /acme.sh/$(DOMAIN) && chmod a+r /acme.sh/$(DOMAIN)/$(DOMAIN).key"]
         volumeMounts:
           - name: acme-out
             mountPath: /acme.sh
