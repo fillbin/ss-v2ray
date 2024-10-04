@@ -5,9 +5,9 @@ metadata:
 spec:
   ports:
   - nodePort: 30082
-    port: 8080
+    port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 80
   type: NodePort
   selector:
     job-name: acme-cert
