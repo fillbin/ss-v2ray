@@ -3,8 +3,7 @@ data:
   domain: <DOMAIN>
   email: <ACCOUNT_EMAIL>
   pass: <PASSWORD>
-  path: <PASSWORD>
+  path: <PATH>
 kind: ConfigMap
 metadata:
-  creationTimestamp: null
   name: ss-v2ray-cm
