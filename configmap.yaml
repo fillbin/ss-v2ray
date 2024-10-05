@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  domain: <DOMAIN>
+  email: <ACCOUNT_EMAIL>
+  pass: <PASSWORD>
+  path: <PASSWORD>
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: ss-v2ray-cm

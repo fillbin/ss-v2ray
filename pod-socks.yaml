@@ -10,11 +10,20 @@ spec:
     name: shadowsocks
     env:
     - name: DOMAIN
-      value: "<YOUR_DOMAIN>"
+      valueFrom:
+        configMapKeyRef:
+          name: ss-v2ray-cm
+          key: domain
     - name: PASSWORD
-      value: "<YOUR_PASSWORD>"
+      valueFrom:
+        configMapKeyRef:
+          name: ss-v2ray-cm
+          key: pass
     - name: DICKPATH
-      value: "<YOUR_CUSTOMPATH>"
+      valueFrom:
+        configMapKeyRef:
+          name: ss-v2ray-cm
+          key: path
     ports:
     - containerPort: 8388
     resources: {}

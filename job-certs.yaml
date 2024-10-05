@@ -23,9 +23,15 @@ spec:
         name: acme
         env:
         - name: DOMAIN
-          value: "<YOUR_DOMAIN>"
+          valueFrom:
+            configMapKeyRef:
+              name: ss-v2ray-cm
+              key: domain
         - name: ACCOUNT_EMAIL
-          value: "<YOUR_EMAIL>"
+          valueFrom:
+            configMapKeyRef:
+              name: ss-v2ray-cm
+              key: email
         - name: ECC_SUFFIX
           value: ""
         command: ['sh', '-c', "acme.sh --issue -d $(DOMAIN) -w /acme.sh && mv /acme.sh/$(DOMAIN)_ecc /acme.sh/$(DOMAIN) && chmod a+r /acme.sh/$(DOMAIN)/$(DOMAIN).key"]

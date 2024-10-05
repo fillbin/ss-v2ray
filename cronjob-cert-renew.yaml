@@ -17,9 +17,15 @@ spec:
             name: acme
             env:
             - name: DOMAIN
-              value: "<YOUR_DOMAIN>"
+              valueFrom:
+                configMapKeyRef:
+                  name: ss-v2ray-cm
+                  key: domain
             - name: ACCOUNT_EMAIL
-              value: "<YOUR_EMAIL>"
+              valueFrom:
+                configMapKeyRef:
+                  name: ss-v2ray-cm
+                  key: email
             command: ['sh', '-c', "acme.sh --cron --home /acme.sh"]
             volumeMounts:
               - name: acme-out
